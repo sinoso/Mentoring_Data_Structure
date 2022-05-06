@@ -1,3 +1,5 @@
+import lifeCycle.LifeCycleState
+import lifeCycle.LifecycleOwner
 import observer.Listener
 import observer.Observable
 import org.assertj.core.api.Assertions.assertThat
@@ -40,6 +42,50 @@ class ObservableTest {
             .isEqualTo(firstChangedValue)
             .isNotEqualTo(secondChangedValue)
 
+    }
+
+    @Test
+    fun `LifeCycle Live to Stop 변경에 따른 value 전송 변경 확인`() {
+        var actualValue = NOT_CHANGED_VALUE
+        val changedValueWithStateLive = Int.MIN_VALUE
+        val changedValueWithStateStop = Int.MAX_VALUE
+
+        val testListener = Listener<Int> { actualValue = it }
+        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val testObservable = Observable<Int>()
+            .apply { subscribe(lifecycleOwner,testListener) }
+            .also { it.setValue(changedValueWithStateLive) }
+
+        assertThat(actualValue).isEqualTo(changedValueWithStateLive)
+        lifecycleOwner.changeState(LifeCycleState.STOP)
+
+        testObservable.setValue(changedValueWithStateStop)
+
+        assertThat(actualValue)
+            .isEqualTo(changedValueWithStateLive)
+            .isNotEqualTo(changedValueWithStateStop)
+    }
+
+    @Test
+    fun `LifeCycle DESTROYED로 변경에 따른 value 전송 변경 확인`() {
+        var actualValue = NOT_CHANGED_VALUE
+        val changedValueWithStateLive = Int.MIN_VALUE
+        val changedValueWithStateStop = Int.MAX_VALUE
+
+        val testListener = Listener<Int> { actualValue = it }
+        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val testObservable = Observable<Int>()
+            .apply { subscribe(lifecycleOwner,testListener) }
+            .also { it.setValue(changedValueWithStateLive) }
+
+        assertThat(actualValue).isEqualTo(changedValueWithStateLive)
+        lifecycleOwner.changeState(LifeCycleState.DESTROYED)
+
+        testObservable.setValue(changedValueWithStateStop)
+
+        assertThat(actualValue)
+            .isEqualTo(changedValueWithStateLive)
+            .isNotEqualTo(changedValueWithStateStop)
     }
 
     companion object {
