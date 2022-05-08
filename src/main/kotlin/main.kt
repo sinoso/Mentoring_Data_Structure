@@ -1,20 +1,20 @@
-import lifeCycle.LifeCycleState
 import lifeCycle.LifecycleOwner
+import lifeCycle.LifecycleState
 import observer.Observable
-import observer.Listener
+import observer.Observer
 
 fun main() {
-    val firstListener = Listener<String> {
+    val firstListener = Observer<String> {
         println("This is First $it")
     }
 
-    val secondListener = Listener<String> {
+    val secondListener = Observer<String> {
         println("This is second $it")
     }
 
     val observable = Observable<String>()
 
-    val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+    val lifecycleOwner = LifecycleOwner(LifecycleState.LIVE)
 
     observable.apply {
         subscribe(lifecycleOwner, firstListener)
@@ -30,17 +30,17 @@ fun main() {
 
     println()
     println("LifeCycle LIVE -> STOP 변경")
-    lifecycleOwner.changeState(LifeCycleState.STOP)
+    lifecycleOwner.changeState(LifecycleState.STOP)
     observable.setValue("call from observable")
 
     println()
     println("LifeCycle STOP -> LIVE 변경")
-    lifecycleOwner.changeState(LifeCycleState.LIVE)
+    lifecycleOwner.changeState(LifecycleState.LIVE)
     observable.setValue("call from observable")
 
     println()
     println("LifeCycle LIVE -> DESTROYED 변경")
-    lifecycleOwner.changeState(LifeCycleState.DESTROYED)
+    lifecycleOwner.changeState(LifecycleState.DESTROYED)
     observable.setValue("call from observable")
 
 }

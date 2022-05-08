@@ -1,26 +1,31 @@
 package lifeCycle
 
-class LifecycleOwner(state: LifeCycleState) {
-    private var lifeCycleListeners = mutableListOf<(LifeCycleState) -> Unit>()
 
-    var state: LifeCycleState = state
-        private set
-
-    fun changeState(state: LifeCycleState) {
-        this.state = state
-        lifeCycleListeners.forEach { it(state) }
-        if (state == LifeCycleState.DESTROYED)
-            lifeCycleListeners.clear()
+class LifecycleOwner(state: LifecycleState) {
+    fun interface Listener {
+        fun onChanged(state: LifecycleState)
     }
 
-    fun getLifeCycleListeners() = lifeCycleListeners.toList()
+    private var listeners = mutableListOf<Listener>()
 
-    fun bindLifeCycle(onStateChanged: (LifeCycleState) -> Unit) {
-        lifeCycleListeners.add(onStateChanged)
+    var state: LifecycleState = state
+        private set
+
+    fun changeState(state: LifecycleState) {
+        this.state = state
+        listeners.forEach { it.onChanged(state) }
+        if (state == LifecycleState.DESTROYED)
+            listeners.clear()
+    }
+
+    fun getListeners() = listeners.toList()
+
+    fun addListener(listener: Listener) {
+        listeners.add(listener)
     }
 
     companion object {
-        val NONE = LifecycleOwner(LifeCycleState.LIVE)
+        val NONE = LifecycleOwner(LifecycleState.LIVE)
         fun getEmptyOwner() = NONE
     }
 }

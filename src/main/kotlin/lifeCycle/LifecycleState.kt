@@ -1,6 +1,6 @@
 package lifeCycle
 
-enum class LifeCycleState {
+enum class LifecycleState {
     LIVE,
     STOP,
     DESTROYED

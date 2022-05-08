@@ -1,4 +1,4 @@
-import lifeCycle.LifeCycleState
+import lifeCycle.LifecycleState
 import lifeCycle.LifecycleOwner
 import observer.Listener
 import observer.Observable
@@ -51,13 +51,13 @@ class ObservableTest {
         val changedValueWithStateStop = Int.MAX_VALUE
 
         val testListener = Listener<Int> { actualValue = it }
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifecycleOwner(LifecycleState.LIVE)
         val testObservable = Observable<Int>()
             .apply { subscribe(lifecycleOwner,testListener) }
             .also { it.setValue(changedValueWithStateLive) }
 
         assertThat(actualValue).isEqualTo(changedValueWithStateLive)
-        lifecycleOwner.changeState(LifeCycleState.STOP)
+        lifecycleOwner.changeState(LifecycleState.STOP)
 
         testObservable.setValue(changedValueWithStateStop)
 
@@ -73,13 +73,13 @@ class ObservableTest {
         val changedValueWithStateStop = Int.MAX_VALUE
 
         val testListener = Listener<Int> { actualValue = it }
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifecycleOwner(LifecycleState.LIVE)
         val testObservable = Observable<Int>()
             .apply { subscribe(lifecycleOwner,testListener) }
             .also { it.setValue(changedValueWithStateLive) }
 
         assertThat(actualValue).isEqualTo(changedValueWithStateLive)
-        lifecycleOwner.changeState(LifeCycleState.DESTROYED)
+        lifecycleOwner.changeState(LifecycleState.DESTROYED)
 
         testObservable.setValue(changedValueWithStateStop)
 
