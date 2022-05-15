@@ -1,12 +1,12 @@
 import lifeCycle.LifeCycleState
-import lifeCycle.LifecycleOwner
+import lifeCycle.LifeCycleOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class LifecycleOwnerTest {
+class LifeCycleOwnerTest {
     @Test
     fun `LifeCycle changeState 시 state값 변경`() {
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
         fun changeAndCheck(changedLifeCycleState: LifeCycleState) {
             lifecycleOwner.changeState(changedLifeCycleState)
             assertThat(lifecycleOwner.state).isEqualTo(changedLifeCycleState)
@@ -17,15 +17,15 @@ class LifecycleOwnerTest {
 
     @Test
     fun `Empty LifeCycleOwner를 가져올 수 있다`() {
-        val emptyLifecycleOwner = LifecycleOwner.getEmptyOwner()
-        assertThat(emptyLifecycleOwner).isEqualTo(LifecycleOwner.NONE)
+        val emptyLifecycleOwner = LifeCycleOwner.getEmptyOwner()
+        assertThat(emptyLifecycleOwner).isEqualTo(LifeCycleOwner.NONE)
     }
 
     @Test
     fun `bindLifeCycle 후 상태 변경값을 전송 한다`() {
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
         var changedByBinding: LifeCycleState = LifeCycleState.LIVE
-        lifecycleOwner.bindLifeCycle { changedByBinding = it }
+        lifecycleOwner.addLifeCycleListener { changedByBinding = it }
 
         fun changeAndCheck(changedLifeCycleState: LifeCycleState) {
             lifecycleOwner.changeState(changedLifeCycleState)
@@ -38,13 +38,15 @@ class LifecycleOwnerTest {
 
     @Test
     fun `LifeCycle이 DESTROYED로 변경 될경우 Listener를 제거한다`() {
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
         val testListenerSize = 2
         val emptySize = 0
-        val testListener = List<(LifeCycleState) -> Unit>(testListenerSize) { {} }
-        fun LifecycleOwner.numberOfListeners() = getLifeCycleListeners().size
+        val testListener =
+            List(testListenerSize) { LifeCycleOwner.LifeCycleListener {} }
 
-        testListener.forEach(lifecycleOwner::bindLifeCycle)
+        fun LifeCycleOwner.numberOfListeners() = getLifeCycleListeners().size
+
+        testListener.forEach(lifecycleOwner::addLifeCycleListener)
 
         assertThat(lifecycleOwner.numberOfListeners()).isEqualTo(testListenerSize)
 
