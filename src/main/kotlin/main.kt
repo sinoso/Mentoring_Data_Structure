@@ -1,46 +1,68 @@
 import lifeCycle.LifeCycleState
+import lifeCycle.LifeCycle
 import lifeCycle.LifeCycleOwner
-import observer.Observable
 import observer.Listener
+import observer.ObservableWithLifeCycle
+import observer.ListenerWithLifeCycle
+import observer.Observable
 
 fun main() {
-    val firstListener = Listener<String> {
-        println("This is First $it")
+    check()
+    checkWithLifeCycle()
+}
+fun check(){
+    println("observable 테스트")
+    val listener = Listener<String>{
+        println("This is FirstListener $it")
     }
-
-    val secondListener = Listener<String> {
-        println("This is second $it")
-    }
-
     val observable = Observable<String>()
+    observable.subscribe(listener)
 
-    val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
+    println("Listener 최초 호출")
+    observable.setValue("call from observable")
+    println()
+    println("Listener 제거 후 호출")
+    observable.unsubscribe(listener)
+    observable.setValue("call from observable")
+    println()
+}
+fun checkWithLifeCycle(){
+    println("ObservableWithLifeCycle 테스트")
+    val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
 
-    observable.apply {
-        subscribe(lifecycleOwner, firstListener)
-        subscribe(lifecycleOwner, secondListener)
+    val firstListener = ListenerWithLifeCycle<String>(lifeCycleOwner) {
+        println("This is FirstListener $it")
+    }
+
+    val secondListener = ListenerWithLifeCycle<String>(lifeCycleOwner) {
+        println("This is secondListener $it")
+    }
+    val observableWithLifeCycle = ObservableWithLifeCycle<String>()
+
+    observableWithLifeCycle.apply {
+        subscribe(firstListener)
+        subscribe(secondListener)
     }
     println("Listener 추가 최초 호출")
-    observable.setValue("call from observable")
+    observableWithLifeCycle.setValue("call from observable")
 
     println()
     println("secondListener secondListener 제거")
-    observable.unsubscribe(secondListener)
-    observable.setValue("call from observable")
+    observableWithLifeCycle.unsubscribe(secondListener)
+    observableWithLifeCycle.setValue("call from observable")
 
     println()
     println("LifeCycle LIVE -> STOP 변경")
-    lifecycleOwner.changeState(LifeCycleState.STOP)
-    observable.setValue("call from observable")
+    lifeCycleOwner.lifeCycle.changeState(LifeCycleState.STOP)
+    observableWithLifeCycle.setValue("call from observable")
 
     println()
     println("LifeCycle STOP -> LIVE 변경")
-    lifecycleOwner.changeState(LifeCycleState.LIVE)
-    observable.setValue("call from observable")
+    lifeCycleOwner.lifeCycle.changeState(LifeCycleState.LIVE)
+    observableWithLifeCycle.setValue("call from observable")
 
     println()
     println("LifeCycle LIVE -> DESTROYED 변경")
-    lifecycleOwner.changeState(LifeCycleState.DESTROYED)
-    observable.setValue("call from observable")
-
+    lifeCycleOwner.lifeCycle.changeState(LifeCycleState.DESTROYED)
+    observableWithLifeCycle.setValue("call from observable")
 }

@@ -1,5 +1,5 @@
 package observer
 
-class Listener<T>(private val onChangeBlock: (T) -> Unit) : Observer<T> {
-    override fun onChange(value: T) = onChangeBlock(value)
+class Listener<T>(private val onChangeListener: Observer.DoOnChangeListener<T>) : Observer<T> {
+    override fun onChange(value: T) = onChangeListener.onChange(value)
 }
