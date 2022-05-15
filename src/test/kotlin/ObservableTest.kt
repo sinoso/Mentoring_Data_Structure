@@ -1,4 +1,4 @@
-import observer.Listener
+import observer.DataObserver
 import observer.Observable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,9 +10,9 @@ class ObservableTest {
     @ValueSource(ints = [Int.MAX_VALUE, Int.MIN_VALUE])
     fun `subscribe후 해당 Listener에 값 전달 확인`(expectedValue: Int) {
         var actualValue = NOT_CHANGED_VALUE
-        val testListener = Listener<Int>{ actualValue = it }
+        val testDataObserver = DataObserver<Int>{ actualValue = it }
         val testObservableWithLifeCycle = Observable<Int>()
-            .apply { subscribe(testListener) }
+            .apply { subscribe(testDataObserver) }
             .also { it.setValue(expectedValue) }
         assertThat(actualValue).isEqualTo(expectedValue)
     }
@@ -22,14 +22,14 @@ class ObservableTest {
         var actualValue = NOT_CHANGED_VALUE
         val firstChangedValue = Int.MIN_VALUE
         val secondChangedValue = Int.MAX_VALUE
-        val testListener = Listener<Int> { actualValue = it }
+        val testDataObserver = DataObserver<Int> { actualValue = it }
         val testObservableWithLifeCycle = Observable<Int>()
-            .apply { subscribe(testListener) }
+            .apply { subscribe(testDataObserver) }
             .also { it.setValue(firstChangedValue) }
 
         assertThat(actualValue).isEqualTo(firstChangedValue)
 
-        testObservableWithLifeCycle.unsubscribe(testListener)
+        testObservableWithLifeCycle.unsubscribe(testDataObserver)
 
         testObservableWithLifeCycle.setValue(secondChangedValue)
 

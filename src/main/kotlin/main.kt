@@ -1,9 +1,9 @@
 import lifeCycle.LifeCycleState
 import lifeCycle.LifeCycle
 import lifeCycle.LifeCycleOwner
-import observer.Listener
+import observer.DataObserver
 import observer.ObservableWithLifeCycle
-import observer.ListenerWithLifeCycle
+import observer.DataObserverWithLifeCycle
 import observer.Observable
 
 fun main() {
@@ -12,17 +12,17 @@ fun main() {
 }
 fun check(){
     println("observable 테스트")
-    val listener = Listener<String>{
+    val dataObserver = DataObserver<String>{
         println("This is FirstListener $it")
     }
     val observable = Observable<String>()
-    observable.subscribe(listener)
+    observable.subscribe(dataObserver)
 
     println("Listener 최초 호출")
     observable.setValue("call from observable")
     println()
     println("Listener 제거 후 호출")
-    observable.unsubscribe(listener)
+    observable.unsubscribe(dataObserver)
     observable.setValue("call from observable")
     println()
 }
@@ -30,11 +30,11 @@ fun checkWithLifeCycle(){
     println("ObservableWithLifeCycle 테스트")
     val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
 
-    val firstListener = ListenerWithLifeCycle<String>(lifeCycleOwner) {
+    val firstListener = DataObserverWithLifeCycle<String>(lifeCycleOwner) {
         println("This is FirstListener $it")
     }
 
-    val secondListener = ListenerWithLifeCycle<String>(lifeCycleOwner) {
+    val secondListener = DataObserverWithLifeCycle<String>(lifeCycleOwner) {
         println("This is secondListener $it")
     }
     val observableWithLifeCycle = ObservableWithLifeCycle<String>()

@@ -1,8 +1,7 @@
 import lifeCycle.LifeCycleState
 import lifeCycle.LifeCycle
 import lifeCycle.LifeCycleOwner
-import observer.Listener
-import observer.ListenerWithLifeCycle
+import observer.DataObserverWithLifeCycle
 import observer.ObservableWithLifeCycle
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -15,7 +14,7 @@ class ObservableWithLifeCycleTest {
     fun `subscribe후 해당 Listener에 값 전달 확인`(expectedValue: Int) {
         var actualValue = NOT_CHANGED_VALUE
         val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
-        val testListener = ListenerWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
+        val testListener = DataObserverWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
 
         val testObservableWithLifeCycle = ObservableWithLifeCycle<Int>()
             .apply { subscribe(testListener) }
@@ -31,7 +30,7 @@ class ObservableWithLifeCycleTest {
         val secondChangedValue = Int.MAX_VALUE
 
         val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
-        val testListener = ListenerWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
+        val testListener = DataObserverWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
         val testObservableWithLifeCycle = ObservableWithLifeCycle<Int>()
             .apply { subscribe(testListener) }
             .also { it.setValue(firstChangedValue) }
@@ -54,7 +53,7 @@ class ObservableWithLifeCycleTest {
         val changedValueWithStateLive = Int.MIN_VALUE
         val changedValueWithStateStop = Int.MAX_VALUE
         val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
-        val testListener = ListenerWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
+        val testListener = DataObserverWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
         val testObservableWithLifeCycle = ObservableWithLifeCycle<Int>()
             .apply { subscribe(testListener) }
             .also { it.setValue(changedValueWithStateLive) }
@@ -76,7 +75,7 @@ class ObservableWithLifeCycleTest {
         val changedValueWithStateStop = Int.MAX_VALUE
 
         val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
-        val testListener = ListenerWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
+        val testListener = DataObserverWithLifeCycle<Int>(lifeCycleOwner) { actualValue = it }
         val testObservableWithLifeCycle = ObservableWithLifeCycle<Int>()
             .apply { subscribe(testListener) }
             .also { it.setValue(changedValueWithStateLive) }

@@ -2,7 +2,7 @@ package observer
 
 import lifeCycle.LifeCycleOwner
 
-class ListenerWithLifeCycle<T>(
+class DataObserverWithLifeCycle<T>(
     private val lifeCycleOwner: LifeCycleOwner,
     private val onChangeListener: Observer.DoOnChangeListener<T>
 ) : ObserverWithLifeCycle<T> {
