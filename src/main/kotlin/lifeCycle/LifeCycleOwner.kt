@@ -1,6 +1,6 @@
 package lifeCycle
 
-class LifecycleOwner(state: LifeCycleState) {
+class LifeCycleOwner(state: LifeCycleState) {
     private var lifeCycleListeners = mutableListOf<(LifeCycleState) -> Unit>()
 
     var state: LifeCycleState = state
@@ -20,7 +20,7 @@ class LifecycleOwner(state: LifeCycleState) {
     }
 
     companion object {
-        val NONE = LifecycleOwner(LifeCycleState.LIVE)
+        val NONE = LifeCycleOwner(LifeCycleState.LIVE)
         fun getEmptyOwner() = NONE
     }
 }

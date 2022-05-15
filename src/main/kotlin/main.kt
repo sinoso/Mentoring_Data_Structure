@@ -1,5 +1,5 @@
 import lifeCycle.LifeCycleState
-import lifeCycle.LifecycleOwner
+import lifeCycle.LifeCycleOwner
 import observer.Observable
 import observer.Listener
 
@@ -14,7 +14,7 @@ fun main() {
 
     val observable = Observable<String>()
 
-    val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+    val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
 
     observable.apply {
         subscribe(lifecycleOwner, firstListener)

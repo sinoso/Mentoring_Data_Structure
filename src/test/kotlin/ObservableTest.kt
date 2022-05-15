@@ -1,5 +1,5 @@
 import lifeCycle.LifeCycleState
-import lifeCycle.LifecycleOwner
+import lifeCycle.LifeCycleOwner
 import observer.Listener
 import observer.Observable
 import org.assertj.core.api.Assertions.assertThat
@@ -51,7 +51,7 @@ class ObservableTest {
         val changedValueWithStateStop = Int.MAX_VALUE
 
         val testListener = Listener<Int> { actualValue = it }
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
         val testObservable = Observable<Int>()
             .apply { subscribe(lifecycleOwner,testListener) }
             .also { it.setValue(changedValueWithStateLive) }
@@ -73,7 +73,7 @@ class ObservableTest {
         val changedValueWithStateStop = Int.MAX_VALUE
 
         val testListener = Listener<Int> { actualValue = it }
-        val lifecycleOwner = LifecycleOwner(LifeCycleState.LIVE)
+        val lifecycleOwner = LifeCycleOwner(LifeCycleState.LIVE)
         val testObservable = Observable<Int>()
             .apply { subscribe(lifecycleOwner,testListener) }
             .also { it.setValue(changedValueWithStateLive) }
