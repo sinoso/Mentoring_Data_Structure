@@ -4,11 +4,11 @@ import lifeCycle.LifeCycleOwner
 
 class DataObserverWithLifeCycle<T>(
     private val lifeCycleOwner: LifeCycleOwner,
-    private val onChangeListener: Observer.DoOnChangeListener<T>
+    private val onChangeListener: Observer.ValueChangeListener<T>
 ) : ObserverWithLifeCycle<T> {
     override fun onChange(value: T) {
         if (isChangeAbleState())
-            onChangeListener.onChange(value)
+            onChangeListener.onValueChange(value)
     }
 
     override fun isChangeAbleState() = lifeCycleOwner.lifeCycle.isChangeAble()

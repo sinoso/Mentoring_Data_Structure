@@ -19,7 +19,7 @@ class LifeCycleTest {
     fun `bindLifeCycle 후 상태 변경값을 전송 한다`() {
         val lifecycle = LifeCycle(LifeCycleState.LIVE)
         var changedByBinding: LifeCycleState = LifeCycleState.LIVE
-        lifecycle.addLifeCycleListener { changedByBinding = it }
+        lifecycle.addListener { changedByBinding = it }
 
         fun changeAndCheck(changedLifeCycleState: LifeCycleState) {
             lifecycle.changeState(changedLifeCycleState)
@@ -36,11 +36,11 @@ class LifeCycleTest {
         val testListenerSize = 2
         val emptySize = 0
         val testListener =
-            List(testListenerSize) { LifeCycle.LifeCycleListener {} }
+            List(testListenerSize) { LifeCycle.OnChangeListener {} }
 
-        fun LifeCycle.numberOfListeners() = getLifeCycleListeners().size
+        fun LifeCycle.numberOfListeners() = getListeners().size
 
-        testListener.forEach(lifecycle::addLifeCycleListener)
+        testListener.forEach(lifecycle::addListener)
 
         assertThat(lifecycle.numberOfListeners()).isEqualTo(testListenerSize)
 

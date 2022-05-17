@@ -1,16 +1,16 @@
 package lifeCycle
 
 class LifeCycle(state: LifeCycleState) {
-    private var lifeCycleListeners = mutableListOf<LifeCycleListener>()
+    private val lifeCycleChangeListeners = mutableListOf<OnChangeListener>()
 
     var state: LifeCycleState = state
         private set
 
     fun changeState(state: LifeCycleState) {
         this.state = state
-        lifeCycleListeners.forEach { it.onStateChange(state) }
+        lifeCycleChangeListeners.forEach { it.onStateChange(state) }
         if (state == LifeCycleState.DESTROYED)
-            lifeCycleListeners.clear()
+            lifeCycleChangeListeners.clear()
     }
 
     fun isChangeAble(): Boolean {
@@ -20,13 +20,13 @@ class LifeCycle(state: LifeCycleState) {
         }
     }
 
-    fun getLifeCycleListeners() = lifeCycleListeners.toList()
+    fun getListeners() = lifeCycleChangeListeners.toList()
 
-    fun addLifeCycleListener(onStateChanged: LifeCycleListener) {
-        lifeCycleListeners.add(onStateChanged)
+    fun addListener(onStateChanged: OnChangeListener) {
+        lifeCycleChangeListeners.add(onStateChanged)
     }
 
-    fun interface LifeCycleListener {
+    fun interface OnChangeListener {
         fun onStateChange(stat: LifeCycleState)
     }
 }
