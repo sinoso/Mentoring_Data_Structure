@@ -12,7 +12,7 @@ class Observable<T> : ObservableValue<T> {
     }
 
     fun unsubscribe(observer: Observer<T>) {
-        observerSet.removeIf { it == observer }
-//        observerSet.remove(observer)
+//        observerSet.removeIf { it == observer }
+        observerSet.remove(observer)
     }
 }
