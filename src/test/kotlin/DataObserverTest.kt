@@ -1,15 +1,15 @@
-import observer.Listener
+import observer.observer.DataObserver
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class ListenerTest {
+class DataObserverTest {
     @ParameterizedTest
     @ValueSource(ints = [Int.MIN_VALUE, Int.MAX_VALUE])
-    fun `listener onChange 호출에 따른 값 변경 확인`(expectedValue: Int) {
+    fun `onChange 호출에 따른 값 변경 확인`(expectedValue: Int) {
         var actualValue = NOT_CHANGED_VALUE
-        val testListener = Listener<Int> { actualValue = it }
-        testListener.onChange(expectedValue)
+        val testDataObserver = DataObserver<Int> { actualValue = it }
+        testDataObserver.onChange(expectedValue)
         assertThat(actualValue).isEqualTo(expectedValue)
     }
     companion object{

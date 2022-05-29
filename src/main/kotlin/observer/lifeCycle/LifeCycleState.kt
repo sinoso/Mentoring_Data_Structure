@@ -1,4 +1,4 @@
-package lifeCycle
+package observer.lifeCycle
 
 enum class LifeCycleState {
     LIVE,
