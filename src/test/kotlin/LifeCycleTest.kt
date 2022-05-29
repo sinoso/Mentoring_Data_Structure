@@ -1,5 +1,5 @@
-import lifeCycle.LifeCycleState
-import lifeCycle.LifeCycle
+import observer.lifeCycle.LifeCycleState
+import observer.lifeCycle.LifeCycle
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -1,4 +1,4 @@
-package lifeCycle
+package observer.lifeCycle
 
 class LifeCycle(state: LifeCycleState) {
     private val lifeCycleChangeListeners = mutableListOf<OnChangeListener>()

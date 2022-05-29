@@ -12,6 +12,7 @@ class Observable<T> : ObservableValue<T> {
     }
 
     fun unsubscribe(observer: Observer<T>) {
-        observerSet.removeIf { it == observer }
+//        observerSet.removeIf { it == observer_pattern.observer }
+        observerSet.remove(observer)
     }
 }

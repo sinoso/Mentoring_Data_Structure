@@ -1,8 +1,7 @@
-import lifeCycle.LifeCycleState
-import lifeCycle.LifeCycle
-import lifeCycle.LifeCycleOwner
-import observer.DataObserverWithLifeCycle
-import observer.ObservableWithLifeCycle
+import observer.lifeCycle.LifeCycleState
+import observer.lifeCycle.LifeCycle
+import observer.lifeCycle.LifeCycleOwner
+import observer.observer.DataObserverWithLifeCycle
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
