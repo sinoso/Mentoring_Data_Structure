@@ -1,4 +1,4 @@
-import observer.DataObserver
+import observer.observer.DataObserver
 import observer.Observable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

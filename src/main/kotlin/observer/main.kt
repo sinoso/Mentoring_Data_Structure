@@ -1,6 +1,6 @@
-import lifeCycle.LifeCycle
-import lifeCycle.LifeCycleOwner
-import lifeCycle.LifeCycleState
+import observer.lifeCycle.LifeCycle
+import observer.lifeCycle.LifeCycleOwner
+import observer.lifeCycle.LifeCycleState
 import observer.Observable
 import observer.ObserverImpl
 import observer.subscribe

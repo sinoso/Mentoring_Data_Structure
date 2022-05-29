@@ -1,7 +1,7 @@
 package observer
 
-import lifeCycle.LifeCycle
-import lifeCycle.LifeCycleState
+import observer.lifeCycle.LifeCycle
+import observer.lifeCycle.LifeCycleState
 
 fun <T> Observable<T>.subscribe(lifeCycle: LifeCycle, observer: Observer<T>) {
     val wrapper = ObserverWithLifeCycle(lifeCycle, observer)
