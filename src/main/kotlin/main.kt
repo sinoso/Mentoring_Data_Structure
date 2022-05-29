@@ -2,7 +2,7 @@ import lifeCycle.LifeCycle
 import lifeCycle.LifeCycleOwner
 import lifeCycle.LifeCycleState
 import observer.Observable
-import observer.Observer
+import observer.ObserverImpl
 import observer.subscribe
 
 fun main() {
@@ -12,7 +12,7 @@ fun main() {
 
 fun check() {
     println("observable 테스트")
-    val dataObserver = Observer<String> {
+    val dataObserver = ObserverImpl<String> {
         println("This is FirstListener $it")
     }
     val observable = Observable<String>()
@@ -31,11 +31,11 @@ fun checkWithLifeCycle() {
     println("ObservableWithLifeCycle 테스트")
     val lifeCycleOwner = LifeCycleOwner(LifeCycle(LifeCycleState.LIVE))
 
-    val firstListener = Observer<String> {
+    val firstListener = ObserverImpl<String> {
         println("This is FirstListener $it")
     }
 
-    val secondListener = Observer<String> {
+    val secondListener = ObserverImpl<String> {
         println("This is secondListener $it")
     }
     val observableWithLifeCycle = Observable<String>()
